@@ -7,7 +7,7 @@ namespace Trial.Repositories;
 
 public interface IStaffRepository
      {
-         Task<Staff> Create(Staff Id);
+         Task<Staff> Create(Staff Item);
 
          Task<bool> Update(Staff Id);
 
@@ -85,7 +85,9 @@ public interface IStaffRepository
 
     public async Task<bool> Update(Staff Id)
     {
-        var query = $@"UPDATE ""{TableNames.staff}"" SET staff_id = @StaffId, staff_name = @StaffName, staff_type = @StaffType, clock_in = @ClockIn, clock_out = @ClockOut, shift = @Shift"; 
+        var query = $@"UPDATE ""{TableNames.staff}"" SET staff_id = @StaffId, 
+        staff_name = @StaffName, staff_type = @StaffType, clock_in = @ClockIn, 
+        clock_out = @ClockOut, shift = @Shift WHERE staff_id = @StaffId"; 
 
         using (var con = NewConnection)
         {

@@ -27,7 +27,7 @@ public class GuestControllerController : ControllerBase
           var guestsList = await _guest.GetList();
 
           var dtoList = guestsList.Select(x => x.asDto);
-          return Ok(guestsList);
+          return Ok(dtoList);
     }
      
     [HttpGet("{guest_id}")]

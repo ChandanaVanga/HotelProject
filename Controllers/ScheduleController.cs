@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Trial.Models;
 
+
 using Trial.Repositories;
 
 namespace Trial.Controllers;
@@ -13,11 +14,14 @@ public class ScheduleControllerController : ControllerBase
 
 
     private readonly ILogger<ScheduleControllerController> _logger;
+    private readonly IGuestRepository _guest;
     private readonly IScheduleRepository _Schedule;
-    public ScheduleControllerController(ILogger<ScheduleControllerController> logger, IScheduleRepository Schedule)
+    
+    public ScheduleControllerController(ILogger<ScheduleControllerController> logger, IScheduleRepository Schedule, IGuestRepository guest)
     {
         _logger = logger;
         _Schedule = Schedule;
+        _guest = guest;
     }
 
     // [HttpGet]
@@ -39,7 +43,13 @@ public class ScheduleControllerController : ControllerBase
          if (Schedule is null)
             return NotFound("No Schedule found with given Schedule id");
 
-          return Ok(Schedule);
+            var task = Schedule;
+
+            task.Guests = await _guest.GetList(Room_id);
+       
+        return Ok(task);
+
+        
     }
 
 
